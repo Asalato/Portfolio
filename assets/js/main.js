@@ -105,4 +105,11 @@ $(window).resize(function () {
             }
         });
     }
+
+    if(window.innerWidth < 992) {
+        $('.info.aside.section').prependTo($('.primary'));
+    }
+    else {
+        $('.info.aside.section').prependTo($('.secondary'));
+    }
 });
