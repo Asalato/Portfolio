@@ -639,6 +639,10 @@ a.dotted-link:hover {
   color: #fb866a;
 }
 
+.toggle{
+  pointer-events: none;
+}
+
 @media (max-width: 767.98px) {
   .header {
     text-align: center;
@@ -657,6 +661,17 @@ a.dotted-link:hover {
   }
   .project-image {
     margin-bottom: 15px;
+  }
+
+  .toggle{
+    pointer-events: all;
+  }
+  .toggle-child {
+    display: none;
+  }
+
+  .section .heading :not(avoid-shilink) {
+    margin-bottom: 0px;
   }
 }
 
