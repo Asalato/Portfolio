@@ -27,9 +27,9 @@ jQuery(document).ready(function ($) {
 
     /* jQuery RSS - https://github.com/sdepold/jquery-rss */
 
-    $("#rss-feeds").rss(
+    $('#rss-feeds').rss(
         //Change this to your own rss feeds
-        "https://qiita.com/Asalato/feed.atom",
+        'https://qiita.com/Asalato/feed.atom',
 
         {
             // how many entries do you want?
@@ -50,7 +50,7 @@ jQuery(document).ready(function ($) {
             // outer template for the html transformation
             // default: "<ul>{entries}</ul>"
             // valid values: any string
-            layoutTemplate: "<div class='items'>{entries}</div>",
+            layoutTemplate: '<div class="items">{entries}</div>',
 
             // inner template for each entry
             // default: '<li><a href="{url}">[{author}@{date}] {title}</a><br/>{shortBodyPlain}</li>'
@@ -61,11 +61,11 @@ jQuery(document).ready(function ($) {
     );
 
     /* Github Calendar - https://github.com/IonicaBizau/github-calendar */
-    new GitHubCalendar("#github-graph", "Asalato");
+    new GitHubCalendar('#github-graph', 'Asalato');
 
 
     /* Github Activity Feed - https://github.com/caseyscarborough/github-activity */
-    GitHubActivity.feed({username: "Asalato", selector: "#ghfeed"});
+    GitHubActivity.feed({username: 'Asalato', selector: '#ghfeed'});
 
 
 });
@@ -106,10 +106,17 @@ $(window).resize(function () {
         });
     }
 
-    if(window.innerWidth < 992) {
+    rePositionAside();
+});
+
+window.onload = function () {
+    rePositionAside();
+}
+
+function rePositionAside() {
+    if (window.innerWidth < 992) {
         $('.info.aside.section').prependTo($('.primary'));
-    }
-    else {
+    } else {
         $('.info.aside.section').prependTo($('.secondary'));
     }
-});
+}

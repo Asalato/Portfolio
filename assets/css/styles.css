@@ -185,14 +185,15 @@ a.dotted-link:hover {
 
 .section .section-inner {
   background: #fff;
-  padding: 30px;
+  padding: 15px;
 }
 
 .section .heading {
   margin-top: 0;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   color: #545e69;
   font-size: 24px;
+  padding: 15px;
 }
 
 .section .content .more-link .svg-inline--fa {
@@ -643,6 +644,14 @@ a.dotted-link:hover {
   pointer-events: none;
 }
 
+.toggle :hover{
+  background-color: #d9feff;
+}
+
+.toggle :active{
+  background-color: #cce5ff;
+}
+
 @media (max-width: 767.98px) {
   .header {
     text-align: center;
@@ -670,7 +679,7 @@ a.dotted-link:hover {
     display: none;
   }
 
-  .section .heading :not(avoid-shilink) {
+  .section .heading :not(.avoid-shilink) {
     margin-bottom: 0px;
   }
 }
