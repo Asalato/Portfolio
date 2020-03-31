@@ -156,7 +156,7 @@ a.dotted-link:hover {
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
-  border-radius: 50%;
+  /*border-radius: 50%;*/
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
@@ -194,6 +194,7 @@ a.dotted-link:hover {
   color: #545e69;
   font-size: 24px;
   padding: 15px;
+  position: relative;
 }
 
 .section .content .more-link .svg-inline--fa {
@@ -212,6 +213,7 @@ a.dotted-link:hover {
 .latest .item .title {
   font-size: 18px;
   margin-top: 0;
+  position: relative;
 }
 
 .latest .item .title .label {
@@ -642,14 +644,70 @@ a.dotted-link:hover {
 
 .toggle{
   pointer-events: none;
+  position: relative;
 }
 
-.toggle :hover{
-  background-color: #d9feff;
+.toggle :hover {
+  background-color: #ebebeb;
+  color: black;
 }
 
-.toggle :active{
+.toggle :active {
   background-color: #cce5ff;
+  color: black;
+}
+
+.toggle .heading:after {
+  content: "";
+  position: absolute;
+  right: 25px;
+  top: 33%;
+  transition: all 0.2s ease-in-out;
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-top: solid 0px #545e69;
+  border-right: solid 0px #545e69;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+.toggle .title:after {
+  content: "";
+  position: relative;
+  top: 83%;
+  right: -45%;
+  transition: all 0.2s ease-in-out;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-top: solid 0px #545e69;
+  border-right: solid 0px #545e69;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+  margin: 5px;
+}
+
+.toggle.open .heading:after,
+.toggle.open .title:after
+{
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  top: 45%;
+}
+
+.toggle .heading:hover:after,
+.toggle .heading:active:after
+{
+  border-top: solid 4px black;
+  border-right: solid 4px black;
+}
+
+.toggle .title:hover:after,
+.toggle .title:active:after
+{
+  border-top: solid 3px black;
+  border-right: solid 3px black;
 }
 
 @media (max-width: 767.98px) {
@@ -674,13 +732,33 @@ a.dotted-link:hover {
 
   .toggle{
     pointer-events: all;
+    cursor: pointer;
   }
   .toggle-child {
     display: none;
   }
 
-  .section .heading :not(.avoid-shilink) {
+  .section .heading {
     margin-bottom: 0px;
+  }
+
+  .toggle .heading:after{
+    border-top-width: 4px;
+    border-right-width: 4px;
+  }
+
+  .toggle .title:after{
+    border-top-width: 3px;
+    border-right-width: 3px;
+  }
+
+  .title{
+    text-align: center;
+  }
+
+  .latest .featured,
+  .latest .divider {
+    margin-bottom: 15px;
   }
 }
 

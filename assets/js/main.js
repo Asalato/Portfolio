@@ -72,18 +72,18 @@ jQuery(document).ready(function ($) {
 
 $('.toggle').click(function () {
     $('.toggle').not(this).removeClass('open');
-    $('.toggle').not(this).next().slideUp(300);
+    $('.toggle').not(this).nextAll('.toggle-child').slideUp(300);
     $('.toggle').not(this).find('.heading').css('margin-bottom', '0px');
     if ($(this).hasClass('open')) {
         let element = $(this);
         element.removeClass('open');
-        element.next().slideUp(300, function () {
+        element.nextAll('.toggle-child').slideUp(300, function () {
             element.find('.heading').css('margin-bottom', '0px');
         });
     } else {
         $(this).addClass('open');
         $(this).find('.heading').css('margin-bottom', '30px');
-        $(this).next().slideDown(300);
+        $(this).nextAll('.toggle-child').slideDown(300);
     }
 });
 
@@ -91,15 +91,15 @@ $(window).resize(function () {
     if ('none' === $('.toggle').css('pointer-events')) {
         $('.toggle').attr('style', '');
         $('.toggle').find('.heading').css('margin-bottom', '30px');
-        $('.toggle').next().slideDown(300);
+        $('.toggle').nextAll('.toggle-child').slideDown(300);
     } else {
         $('.toggle').each(function () {
             if ($(this).hasClass('open')) {
                 $(this).find('.heading').css('margin-bottom', '30px');
-                $(this).next().slideDown(300);
+                $(this).nextAll('.toggle-child').slideDown(300);
             } else {
                 let element = $(this);
-                element.next().slideUp(300, function () {
+                element.nextAll('.toggle-child').slideUp(300, function () {
                     element.find('.heading').css('margin-bottom', '0px');
                 });
             }
