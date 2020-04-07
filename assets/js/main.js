@@ -71,19 +71,29 @@ jQuery(document).ready(function ($) {
 });
 
 $('.toggle').click(function () {
-    $('.toggle').not(this).removeClass('open');
-    $('.toggle').not(this).nextAll('.toggle-child').slideUp(300);
-    $('.toggle').not(this).find('.heading').css('margin-bottom', '0px');
+    let toggles = $('.toggle').not($(this));
+    let thiselm = $(this);
+    toggles.each(function (index, element) {
+        if (!$(element).next().children().has(thiselm).length) {
+            $(element).removeClass('open');
+            let slideelm = $(element).closest('.item.row').length ? $(element).closest('.item.row').find('.toggle-child') : $(element).nextAll('.toggle-child');
+            slideelm.slideUp(300, function () {
+                $(element).find('.heading').css('margin-bottom', '0px');
+            });
+        }
+    });
     if ($(this).hasClass('open')) {
         let element = $(this);
         element.removeClass('open');
-        element.nextAll('.toggle-child').slideUp(300, function () {
+        let slideelm = $(element).closest('.item.row').length ? $(element).closest('.item.row').find('.toggle-child') : $(element).nextAll('.toggle-child');
+        slideelm.slideUp(300, function () {
             element.find('.heading').css('margin-bottom', '0px');
         });
     } else {
         $(this).addClass('open');
         $(this).find('.heading').css('margin-bottom', '30px');
-        $(this).nextAll('.toggle-child').slideDown(300);
+        let slideelm = $(this).closest('.item.row').length ? $(this).closest('.item.row').find('.toggle-child') : $(this).nextAll('.toggle-child');
+        slideelm.slideDown(300);
     }
 });
 
@@ -111,7 +121,7 @@ $(window).resize(function () {
 
 window.onload = function () {
     rePositionAside();
-}
+};
 
 function rePositionAside() {
     if (window.innerWidth < 992) {

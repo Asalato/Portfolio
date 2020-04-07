@@ -211,7 +211,7 @@ a.dotted-link:hover {
 }
 
 .latest .item .title {
-  font-size: 18px;
+  font-size: 20px;
   margin-top: 0;
   position: relative;
 }
@@ -246,7 +246,7 @@ a.dotted-link:hover {
 .latest .featured .title {
   font-size: 20px;
   margin-bottom: 5px;
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .latest .featured .summary {
@@ -323,7 +323,7 @@ a.dotted-link:hover {
 }
 
 .projects .item .title {
-  font-size: 16px;
+  font-size: 18px;
   margin-top: 0;
   margin-bottom: 5px;
   line-height: 1.5;
@@ -335,6 +335,10 @@ a.dotted-link:hover {
 
 .projects .item .title a:hover {
   color: #5f6b77;
+}
+
+.projects .item h4.title{
+  font-size: 16px;
 }
 
 /* Work Section */
@@ -501,6 +505,7 @@ a.dotted-link:hover {
 /* Education section */
 .education .item {
   margin-bottom: 30px;
+  position: relative;
 }
 
 .education .item:last-child {
@@ -753,6 +758,10 @@ a.dotted-link:hover {
   }
 
   .latest .title{
+    text-align: center;
+  }
+
+  .projects .title{
     text-align: center;
   }
 
