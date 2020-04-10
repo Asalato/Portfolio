@@ -193,7 +193,7 @@ a.dotted-link:hover {
 }
 
 .section .section-inner {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.95);
   padding: 15px;
 }
 
