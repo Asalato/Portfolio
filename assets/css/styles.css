@@ -647,6 +647,12 @@ a.dotted-link:hover {
   color: #fb866a;
 }
 
+.footer img{
+  max-width: 14px;
+  max-height: 14px;
+  margin-right: 3px;
+}
+
 .toggle{
   pointer-events: none;
   position: relative;
