@@ -784,6 +784,14 @@ a.dotted-link:hover {
   .latest .divider {
     margin-bottom: 15px;
   }
+
+  #wrapper{
+    visibility: hidden;
+  }
+
+  .section .section-inner {
+    background: #fff;
+  }
 }
 
 @media (min-width: 1400px) {
