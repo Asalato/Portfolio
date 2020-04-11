@@ -238,6 +238,8 @@ a:focus {
 /* Git section */
 .github-graph {
   margin-bottom: 30px;
+  background-color: #fff;
+  color: #434343;
 }
 
 .github-graph .js-calendar-graph-svg {
@@ -431,7 +433,7 @@ a:focus {
 }
 
 .footer a {
-  color: var(--sectioncolor);
+  color: var(--titlecolor);
 }
 
 .footer .fa-heart {
@@ -533,7 +535,7 @@ a:focus {
   }
 
   .toggle{
-    pointer-events: all;
+    pointer-events: auto;
     cursor: pointer;
   }
   .toggle-child {
@@ -584,5 +586,21 @@ a:focus {
 }
 
 @media (prefers-color-scheme: dark){
-
+  :root{
+    --textcolor: #DAE3E7;
+    --backgroundcolor: #63758f;
+    --backgroundopaquelow: rgba(73, 81, 90, 0.9);
+    --backgroundopaquehigh: rgba(73, 81, 90, 0.95);
+    --sectioncolor: #49515a;
+    --titlecolor: #ccd1d6;
+    --hovercolor: #5f6b77;
+    --badgetheme: #66cb8c;
+    --icontheme: #b0b7bf;
+    --profilecolor: #f7f9fa;
+    --textbold: #ccd1d6;
+    --headercolor: #edf5fc;
+    --skillbackground: #e8e8e8;
+    --activecolor: #cce5ff;
+    --hightlightcolor: #fff;
+  }
 }

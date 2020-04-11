@@ -71,6 +71,8 @@ jQuery(document).ready(function ($) {
 });
 
 $('.toggle').click(function () {
+    if($('.toggle').css('pointer-events') === 'none') return;
+
     let toggles = $('.toggle').not($(this));
     let thiselm = $(this);
     toggles.each(function (index, element) {
