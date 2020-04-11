@@ -167,6 +167,8 @@ function draw() {
                 const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
                 if (dist < 25) {
+                    if(particlesData[i] > 2 || particlesData[j] > 2) continue;
+
                     particlesData[i]++;
                     particlesData[j]++;
 
