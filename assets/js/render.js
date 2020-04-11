@@ -166,13 +166,13 @@ function draw() {
                 const dz = particlePositions[i * 3 + 2] - particlePositions[j * 3 + 2];
                 const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-                if (dist < 25) {
+                if (dist <= 25) {
                     if(particlesData[i] > 2 || particlesData[j] > 2) continue;
 
                     particlesData[i]++;
                     particlesData[j]++;
 
-                    const alpha = -Math.log(1.0 - dist / 25);
+                    const alpha = -Math.log(dist / 25) * 4;
 
                     positions[vertexpos++] = particlePositions[i * 3];
                     positions[vertexpos++] = particlePositions[i * 3 + 1];
