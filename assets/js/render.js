@@ -21,7 +21,7 @@ function getDevice() {
 
 function resize() {
     let background = $('#background');
-    background.attr({height: background.parent().height(), width: background.parent().width()});
+    background.attr({height: window.innerHeight, width: window.innerWidth});
 }
 
 function draw() {
