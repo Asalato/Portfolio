@@ -17,7 +17,7 @@ function getDevice() {
     } else {
         return 'other';
     }
-};
+}
 
 function resize() {
     let background = $('#background');

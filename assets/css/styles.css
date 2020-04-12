@@ -569,10 +569,6 @@ a:focus {
     margin-bottom: 15px;
   }
 
-  #wrapper{
-    visibility: hidden;
-  }
-
   .section .section-inner {
     background: var(--sectioncolor);
   }
