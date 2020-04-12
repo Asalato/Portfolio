@@ -18,5 +18,6 @@
   "trailing": true,
   "strict": 0,
   "maxlen": 500,
-  "esversion": 6
+  "esversion": 6,
+  "curly": false
 }

@@ -1,23 +1,23 @@
 $(function () {
     resize();
-    if(getDevice() !== 'sp') {
+    if (getDevice() !== 'sp') {
         draw();
     }
     $(window).resize(function () {
         resize();
-        if(getDevice() !== 'sp') {
+        if (getDevice() !== 'sp') {
             draw();
         }
     });
 });
 
-function getDevice(){
+function getDevice() {
     const ua = navigator.userAgent;
-    if(ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0){
+    if (ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0) {
         return 'sp';
-    }else if(ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0){
+    } else if (ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0) {
         return 'tab';
-    }else{
+    } else {
         return 'other';
     }
 };
@@ -28,6 +28,9 @@ function resize() {
 }
 
 function draw() {
+    let vertexShader = "attribute vec4 color; varying vec4 vertexColor; void main(){ gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); vertexColor = color;}";
+    let fragmentShader = "varying vec4 vertexColor; void main(){gl_FragColor = vertexColor;}";
+
     const particlesData = [];
     let canvas = document.querySelector('#background');
 
@@ -50,10 +53,11 @@ function draw() {
         1,
         10000
     );
-    camera.position.set(0, 0, +500);
+    camera.position.set(0, 0, +200);
 
-    const particleCount = 1000;
-    const particleDistance = 220;
+    const particleCount = 500;
+    const particleDistance = 80;
+    const distanceThreshold = 18;
 
     let particlePositions = new Float32Array(particleCount * 3);
     let directions = new Float32Array(particleCount * 3);
@@ -75,7 +79,7 @@ function draw() {
 
         speeds[i] = Math.sin(Math.random()) * 0.001;
 
-        particlesData.push(0);
+        particlesData.push([]);
     }
 
     let particles = new THREE.BufferGeometry();
@@ -84,7 +88,7 @@ function draw() {
 
     const discImage = new THREE.TextureLoader().load('assets/images/disc.png');
     let pMaterial = new THREE.PointsMaterial({
-        size: 8,
+        size: 3,
         color: 0xffffff,
         map: discImage,
         blending: THREE.AdditiveBlending,
@@ -97,25 +101,47 @@ function draw() {
     let pointCloud = new THREE.Points(particles, pMaterial);
     scene.add(pointCloud);
 
-    const geometry = new THREE.BufferGeometry();
+    const lines = new THREE.BufferGeometry();
+    let lPositions = new Float32Array(particleCount * 3 * particleCount * 3);
+    let lColors = new Float32Array(particleCount * 3 * particleCount * 4);
+    lines.setAttribute('position', new THREE.BufferAttribute(lPositions, 3).setUsage(THREE.DynamicDrawUsage));
+    lines.setAttribute('color', new THREE.BufferAttribute(lColors, 3).setUsage(THREE.DynamicDrawUsage));
+    lines.computeBoundingSphere();
+    lines.setDrawRange(0, 0);
 
-    let positions = new Float32Array( particleCount * 3 );
-    let colors = new Float32Array( particleCount * 3 );
-    geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
-    geometry.setAttribute( 'color', new THREE.BufferAttribute( colors, 3 ).setUsage( THREE.DynamicDrawUsage ) );
-
-    geometry.computeBoundingSphere();
-
-    geometry.setDrawRange( 0, 0 );
-
-    const material = new THREE.LineBasicMaterial({
+    const lMaterial = new THREE.LineBasicMaterial({
         vertexColors: true,
         blending: THREE.AdditiveBlending,
-        transparent: true
+        transparent: true,
     });
 
-    let linesMesh = new THREE.LineSegments(geometry, material);
-    scene.add( linesMesh );
+    let linesMesh = new THREE.LineSegments(lines, lMaterial);
+    scene.add(linesMesh);
+
+    const triangles = new THREE.BufferGeometry();
+    let tPositions = new Float32Array(particleCount * 3 * particleCount * 3);
+    let tColors = new Float32Array(particleCount * 4 * particleCount * 4);
+    triangles.setAttribute('position', new THREE.BufferAttribute(tPositions, 3).setUsage(THREE.DynamicDrawUsage));
+    triangles.setAttribute('color', new THREE.BufferAttribute(tColors, 4).setUsage(THREE.DynamicDrawUsage));
+    triangles.computeBoundingSphere();
+    triangles.setDrawRange(0, 0);
+
+    const tMaterial = new THREE.ShaderMaterial({
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader
+    });
+
+    /*const tMaterial = new THREE.MeshBasicMaterial({
+        vertexColors: true,
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        //color: 0xffffff
+    });*/
+
+    let trianglesMesh = new THREE.Mesh(triangles, tMaterial);
+    scene.add(trianglesMesh);
 
     animate();
 
@@ -127,14 +153,14 @@ function draw() {
     function render() {
         let particlePositions = pointCloud.geometry.attributes.position.array;
         for (let i = 0; i < particleCount; ++i) {
-            particlesData[i] = 0;
+            particlesData[i] = [];
         }
 
-        let vertexpos = 0;
-        let colorpos = 0;
-        var numConnected = 0;
+        let distances = [];
 
         for (let i = 0; i < particleCount; ++i) {
+            distances.push([]);
+
             let position = new THREE.Vector3(
                 particlePositions[3 * i],
                 particlePositions[3 * i + 1],
@@ -165,48 +191,121 @@ function draw() {
                 const dy = particlePositions[i * 3 + 1] - particlePositions[j * 3 + 1];
                 const dz = particlePositions[i * 3 + 2] - particlePositions[j * 3 + 2];
                 const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                distances[i].push(dist);
 
-                if (dist <= 25) {
-                    if(particlesData[i] > 2 || particlesData[j] > 2) continue;
+                if (dist > distanceThreshold) continue;
+                if (particlesData[i].length > 5 || particlesData[j].length > 5) continue;
 
-                    particlesData[i]++;
-                    particlesData[j]++;
-
-                    const alpha = -Math.log(dist / 25) * 4;
-
-                    positions[vertexpos++] = particlePositions[i * 3];
-                    positions[vertexpos++] = particlePositions[i * 3 + 1];
-                    positions[vertexpos++] = particlePositions[i * 3 + 2];
-
-                    positions[vertexpos++] = particlePositions[j * 3];
-                    positions[vertexpos++] = particlePositions[j * 3 + 1];
-                    positions[vertexpos++] = particlePositions[j * 3 + 2];
-
-                    colors[colorpos++] = alpha;
-                    colors[colorpos++] = alpha;
-                    colors[colorpos++] = alpha;
-
-                    colors[colorpos++] = alpha;
-                    colors[colorpos++] = alpha;
-                    colors[colorpos++] = alpha;
-
-                    numConnected++;
-
-                }
+                particlesData[i].push(j);
             }
         }
+
+        let lVertexPos = 0;
+        let lColorPos = 0;
+        let tVertexPos = 0;
+        let tColorPos = 0;
+
+        for (let i = 0; i < particleCount; ++i) {
+            if (particlesData[i].length === 0) continue;
+
+            // find triangles
+            let triangles = [];
+            for (let index0 = 0; index0 < particlesData[i].length; ++index0) {
+                let abs0 = particlesData[i][index0];
+                for (let index1 = 0; index1 < particlesData[abs0].length; ++index1) {
+                    let abs1 = particlesData[abs0][index1];
+                    if (particlesData[i].indexOf(abs1) <= particlesData[i].indexOf(abs0)) continue;
+                    triangles.push([abs0, abs1]);
+                }
+            }
+
+            for (let j = 0; j < triangles.length; ++j) {
+                let first = triangles[j][0];
+                let second = triangles[j][1];
+
+                particlesData[i].splice(particlesData[i].indexOf(first), 1);
+                particlesData[i].splice(particlesData[i].indexOf(second), 1);
+
+                // create triangles
+                tPositions[tVertexPos++] = particlePositions[i * 3];
+                tPositions[tVertexPos++] = particlePositions[i * 3 + 1];
+                tPositions[tVertexPos++] = particlePositions[i * 3 + 2];
+
+                tPositions[tVertexPos++] = particlePositions[first * 3];
+                tPositions[tVertexPos++] = particlePositions[first * 3 + 1];
+                tPositions[tVertexPos++] = particlePositions[first * 3 + 2];
+
+                tPositions[tVertexPos++] = particlePositions[second * 3];
+                tPositions[tVertexPos++] = particlePositions[second * 3 + 1];
+                tPositions[tVertexPos++] = particlePositions[second * 3 + 2];
+
+                const dist0 = distances[i][first - i - 1];
+                const dist1 = distances[i][second - i - 1];
+                const dist2 = distances[first][second - first - 1];
+                const currentAlpha = Math.min(-Math.log(dist0 / distanceThreshold) * -Math.log(dist1 / distanceThreshold), 0.8);
+                const firstAlpha = Math.min(-Math.log(dist1 / distanceThreshold) * -Math.log(dist2 / distanceThreshold), 0.8);
+                const secondAlpha = Math.min(-Math.log(dist2 / distanceThreshold) * -Math.log(dist0 / distanceThreshold), 0.8);
+
+                const midX = (particlePositions[i * 3] + particlePositions[first * 3] + particlePositions[second * 3]) / (3 * particleDistance * 2) + 0.5;
+                const midY = (particlePositions[i * 3 + 1] + particlePositions[first * 3 + 1] + particlePositions[second * 3 + 1]) / (3 * particleDistance * 2) + 0.5;
+                const midZ = (particlePositions[i * 3 + 2] + particlePositions[first * 3 + 2] + particlePositions[second * 3 + 2]) / (3 * particleDistance * 2) + 0.5;
+
+                tColors[tColorPos++] = midX;
+                tColors[tColorPos++] = midY;
+                tColors[tColorPos++] = midZ;
+                tColors[tColorPos++] = currentAlpha * 0.8;
+
+                tColors[tColorPos++] = midX;
+                tColors[tColorPos++] = midY;
+                tColors[tColorPos++] = midZ;
+                tColors[tColorPos++] = firstAlpha * 0.8;
+
+                tColors[tColorPos++] = midX;
+                tColors[tColorPos++] = midY;
+                tColors[tColorPos++] = midZ;
+                tColors[tColorPos++] = secondAlpha * 0.8;
+            }
+
+            for (let j = 0; j < particlesData[i].length; j++) {
+                const child = particlesData[i][j];
+                const dist = distances[i][child - i - 1];
+                const alpha = -Math.log(dist / distanceThreshold);
+
+                lPositions[lVertexPos++] = particlePositions[i * 3];
+                lPositions[lVertexPos++] = particlePositions[i * 3 + 1];
+                lPositions[lVertexPos++] = particlePositions[i * 3 + 2];
+
+                lPositions[lVertexPos++] = particlePositions[child * 3];
+                lPositions[lVertexPos++] = particlePositions[child * 3 + 1];
+                lPositions[lVertexPos++] = particlePositions[child * 3 + 2];
+
+                lColors[lColorPos++] = alpha;
+                lColors[lColorPos++] = alpha;
+                lColors[lColorPos++] = alpha;
+
+                lColors[lColorPos++] = alpha;
+                lColors[lColorPos++] = alpha;
+                lColors[lColorPos++] = alpha;
+            }
+        }
+
         pointCloud.geometry.attributes.position.needsUpdate = true;
-        linesMesh.geometry.setDrawRange( 0, numConnected * 2 );
+        linesMesh.geometry.setDrawRange(0, lVertexPos / 3);
         linesMesh.geometry.attributes.position.needsUpdate = true;
         linesMesh.geometry.attributes.color.needsUpdate = true;
+        trianglesMesh.geometry.setDrawRange(0, tVertexPos / 3);
+        trianglesMesh.geometry.attributes.position.needsUpdate = true;
+        trianglesMesh.geometry.attributes.color.needsUpdate = true;
 
         const time = Date.now() * 0.001;
 
         const scrollHeight = window.pageYOffset;
         pointCloud.rotation.x = -scrollHeight / height * Math.PI;
         pointCloud.rotation.z = time * 0.05;
-        linesMesh.rotation.x = -scrollHeight / height  * Math.PI;
+        linesMesh.rotation.x = -scrollHeight / height * Math.PI;
         linesMesh.rotation.z = time * 0.05;
+        trianglesMesh.rotation.x = -scrollHeight / height * Math.PI;
+        trianglesMesh.rotation.z = time * 0.05;
         renderer.render(scene, camera);
     }
 }
