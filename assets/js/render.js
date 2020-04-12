@@ -5,9 +5,6 @@ $(function () {
     }
     $(window).resize(function () {
         resize();
-        if (getDevice() !== 'sp') {
-            draw();
-        }
     });
 });
 
@@ -38,8 +35,7 @@ function draw() {
     let height = canvas.height;
 
     const renderer = new THREE.WebGLRenderer({
-        canvas: canvas,
-        antialiasing: true
+        canvas: canvas
     });
     renderer.setSize(width, height);
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -53,7 +49,7 @@ function draw() {
         1,
         10000
     );
-    camera.position.set(0, 0, +200);
+    camera.position.set(0, 0, Math.log(width * 1.2) + 200);
 
     const particleCount = 500;
     const particleDistance = 80;
@@ -144,6 +140,7 @@ function draw() {
     scene.add(trianglesMesh);
 
     animate();
+    window.addEventListener('resize', onResize);
 
     function animate() {
         render();
@@ -307,6 +304,18 @@ function draw() {
         trianglesMesh.rotation.x = -scrollHeight / height * Math.PI;
         trianglesMesh.rotation.z = time * 0.05;
         renderer.render(scene, camera);
+    }
+
+    function onResize(){
+        width = canvas.width;
+        height = canvas.height;
+
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        camera.aspect = width / height;
+        camera.position.set(0, 0, Math.log(width * 1.2) + 200);
+        camera.updateProjectionMatrix();
     }
 }
 
