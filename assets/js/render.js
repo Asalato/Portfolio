@@ -99,7 +99,7 @@ function draw() {
 
     const lines = new THREE.BufferGeometry();
     let lPositions = new Float32Array(particleCount * 3 * particleCount * 3);
-    let lColors = new Float32Array(particleCount * 3 * particleCount * 4);
+    let lColors = new Float32Array(particleCount * 3 * particleCount * 3);
     lines.setAttribute('position', new THREE.BufferAttribute(lPositions, 3).setUsage(THREE.DynamicDrawUsage));
     lines.setAttribute('color', new THREE.BufferAttribute(lColors, 3).setUsage(THREE.DynamicDrawUsage));
     lines.computeBoundingSphere();
@@ -109,6 +109,7 @@ function draw() {
         vertexColors: true,
         blending: THREE.AdditiveBlending,
         transparent: true,
+        colorWrite: true
     });
 
     let linesMesh = new THREE.LineSegments(lines, lMaterial);
@@ -126,7 +127,8 @@ function draw() {
         blending: THREE.AdditiveBlending,
         transparent: true,
         vertexShader: vertexShader,
-        fragmentShader: fragmentShader
+        fragmentShader: fragmentShader,
+        colorWrite: true
     });
 
     /*const tMaterial = new THREE.MeshBasicMaterial({
