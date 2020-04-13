@@ -222,6 +222,7 @@ function draw() {
 
                 particlesData[i].splice(particlesData[i].indexOf(first), 1);
                 particlesData[i].splice(particlesData[i].indexOf(second), 1);
+                particlesData[first].splice(particlesData[first].indexOf(second), 1);
 
                 // create triangles
                 tPositions[tVertexPos++] = particlePositions[i * 3];
