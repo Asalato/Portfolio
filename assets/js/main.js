@@ -101,20 +101,16 @@ $('.toggle').click(function () {
 
 $(window).resize(function () {
     if ('none' === $('.toggle').css('pointer-events')) {
-        $('.toggle').attr('style', '');
+        $('.toggle').removeClass('open');
+        $('.toggle').show();
         $('.toggle').find('.heading').css('margin-bottom', '30px');
-        $('.toggle').nextAll('.toggle-child').slideDown(300);
+        $('.toggle-child').slideDown(300);
     } else {
         $('.toggle').each(function () {
-            if ($(this).hasClass('open')) {
-                $(this).find('.heading').css('margin-bottom', '30px');
-                $(this).nextAll('.toggle-child').slideDown(300);
-            } else {
-                let element = $(this);
-                element.nextAll('.toggle-child').slideUp(300, function () {
-                    element.find('.heading').css('margin-bottom', '0px');
-                });
-            }
+            let element = $(this);
+            element.nextAll('.toggle-child').slideUp(300, function () {
+                element.find('.heading').css('margin-bottom', '0px');
+            });
         });
     }
 
