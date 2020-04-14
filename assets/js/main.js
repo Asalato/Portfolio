@@ -117,9 +117,9 @@ $(window).resize(function () {
     rePositionAside();
 });
 
-window.onload = function () {
+$(document).ready(function () {
     rePositionAside();
-};
+});
 
 function rePositionAside() {
     if (window.innerWidth < 992) {

@@ -581,6 +581,13 @@ a:focus {
   }
 }
 
+.white{
+  display: block;
+}
+.dark{
+  display: none;
+}
+
 @media (prefers-color-scheme: dark){
   :root{
     --textcolor: #DAE3E7;
@@ -598,5 +605,12 @@ a:focus {
     --skillbackground: #e8e8e8;
     --activecolor: #cce5ff;
     --hightlightcolor: #fff;
+  }
+
+  .white{
+    display: none;
+  }
+  .dark{
+    display: block;
   }
 }
