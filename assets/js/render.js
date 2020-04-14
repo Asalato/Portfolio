@@ -128,7 +128,7 @@ function draw() {
         transparent: true,
         vertexShader: vertexShader,
         fragmentShader: fragmentShader,
-        colorWrite: true
+        side: THREE.DoubleSide,
     });
 
     /*const tMaterial = new THREE.MeshBasicMaterial({
@@ -193,7 +193,6 @@ function draw() {
                 distances[i].push(dist);
 
                 if (dist > distanceThreshold) continue;
-                if (particlesData[i].length > 5 || particlesData[j].length > 5) continue;
 
                 particlesData[i].push(j);
             }
@@ -242,9 +241,9 @@ function draw() {
                 const dist0 = distances[i][first - i - 1];
                 const dist1 = distances[i][second - i - 1];
                 const dist2 = distances[first][second - first - 1];
-                const currentAlpha = Math.max(-Math.log(dist0 / distanceThreshold), -Math.log(dist1 / distanceThreshold)) * 0.6;
-                const firstAlpha = Math.max(-Math.log(dist1 / distanceThreshold), -Math.log(dist2 / distanceThreshold)) * 0.6;
-                const secondAlpha = Math.max(-Math.log(dist2 / distanceThreshold), -Math.log(dist0 / distanceThreshold)) * 0.6;
+                const currentAlpha = Math.min(-Math.log(dist0 / distanceThreshold), -Math.log(dist1 / distanceThreshold));
+                const firstAlpha = Math.min(-Math.log(dist1 / distanceThreshold), -Math.log(dist2 / distanceThreshold));
+                const secondAlpha = Math.min(-Math.log(dist2 / distanceThreshold), -Math.log(dist0 / distanceThreshold));
 
                 const midX = (particlePositions[i * 3] + particlePositions[first * 3] + particlePositions[second * 3]) / (3 * particleDistance * 2) + 0.5;
                 const midY = (particlePositions[i * 3 + 1] + particlePositions[first * 3 + 1] + particlePositions[second * 3 + 1]) / (3 * particleDistance * 2) + 0.5;
@@ -269,7 +268,7 @@ function draw() {
             for (let j = 0; j < particlesData[i].length; j++) {
                 const child = particlesData[i][j];
                 const dist = distances[i][child - i - 1];
-                const alpha = -Math.log(dist / distanceThreshold);
+                const alpha = Math.min(-Math.log(dist / distanceThreshold), 0.4);
 
                 lPositions[lVertexPos++] = particlePositions[i * 3];
                 lPositions[lVertexPos++] = particlePositions[i * 3 + 1];
