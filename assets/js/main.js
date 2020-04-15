@@ -1,9 +1,15 @@
 const trueResize = new CustomEvent('trueResize');
 let currentWidth;
-$(window).ready(function(){currentWidth = $(window).width();});
+let currentHeight;
+$(window).ready(function(){
+    currentWidth = $(window).width();
+    currentHeight = $(window).height();
+});
 $(window).resize(function(){
     const width = $(window).width();
-    if(width === currentWidth) return;
+    const height = $(window).height();
+    if(width === currentWidth && height === currentHeight) return;
+    currentHeight = height;
     currentWidth = width;
     window.dispatchEvent(trueResize);
 });
