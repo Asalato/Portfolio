@@ -19,9 +19,13 @@ function getDevice() {
     }
 }
 
+const glResize = new CustomEvent('glResize');
 function resize() {
     let background = $('#background');
-    background.attr({height: window.innerHeight, width: window.innerWidth});
+    let width = background.parent().css('width');
+    let height = background.parent().css('height');
+    background.attr({width: width, height: height});
+    window.dispatchEvent(glResize);
 }
 
 function draw() {
@@ -131,18 +135,11 @@ function draw() {
         side: THREE.DoubleSide,
     });
 
-    /*const tMaterial = new THREE.MeshBasicMaterial({
-        vertexColors: true,
-        blending: THREE.AdditiveBlending,
-        transparent: true,
-        //color: 0xffffff
-    });*/
-
     let trianglesMesh = new THREE.Mesh(triangles, tMaterial);
     scene.add(trianglesMesh);
 
     animate();
-    window.addEventListener('trueResize', onResize);
+    window.addEventListener('glResize', onResize);
 
     function animate() {
         render();
