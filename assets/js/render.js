@@ -1,8 +1,7 @@
 $(function () {
     resize();
-    if (getDevice() !== 'sp') {
-        $(window).ready(draw);
-    }
+    //if (getDevice() !== 'sp') {}
+    $(window).ready(draw);
     window.addEventListener('trueResize', function () {
         resize();
     });
