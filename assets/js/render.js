@@ -3,7 +3,7 @@ $(function () {
     if (getDevice() !== 'sp') {
         draw();
     }
-    $(window).resize(function () {
+    window.addEventListener('trueResize', function () {
         resize();
     });
 });
@@ -142,7 +142,7 @@ function draw() {
     scene.add(trianglesMesh);
 
     animate();
-    window.addEventListener('resize', onResize);
+    window.addEventListener('trueResize', onResize);
 
     function animate() {
         render();

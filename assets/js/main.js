@@ -1,3 +1,13 @@
+const trueResize = new CustomEvent('trueResize');
+let currentWidth;
+$(window).ready(function(){currentWidth = $(window).width();});
+$(window).resize(function(){
+    const width = $(window).width();
+    if(width === currentWidth) return;
+    currentWidth = width;
+    window.dispatchEvent(trueResize);
+});
+
 $(window).on('load', function () {
 
     $('.level-bar-inner').each(function () {
@@ -99,7 +109,7 @@ $('.toggle').click(function () {
     }
 });
 
-$(window).resize(function () {
+window.addEventListener('trueResize', function () {
     if ('none' === $('.toggle').css('pointer-events')) {
         $('.toggle').removeClass('open');
         $('.toggle').show();
