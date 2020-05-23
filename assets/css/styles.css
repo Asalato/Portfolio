@@ -48,6 +48,16 @@ body #wrapper{
   height: auto;
 }
 
+.chart img {
+  width: 75%;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.featured-image {
+  text-align: center;
+}
+
 .latest video, .projects video {
   width: 100%;
   height: auto;
@@ -581,6 +591,10 @@ a:focus {
 
   .section .section-inner {
     background: var(--sectioncolor);
+  }
+
+  .chart img {
+    width: 100%;
   }
 }
 

@@ -35,7 +35,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163616824-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'UA-163616824-1');
@@ -52,7 +56,10 @@
         <img class="profile-image img-fluid float-left white" src="assets/images/profile.png" alt="Masaki Mita"/>
         <img class="profile-image img-fluid float-left dark" src="assets/images/profile2.png" alt="Masaki Mita"/>
         <div class="profile-content float-left">
-            <h1 class="name" style="white-space: nowrap">三田 昌輝<wbr>（Masaki Mita）</h1>
+            <h1 class="name" style="white-space: nowrap">三田 昌輝
+                <wbr>
+                （Masaki Mita）
+            </h1>
             <h2 class="desc">Technical Artist / Engineer / Designer</h2>
             <ul class="social list-inline">
                 <li class="list-inline-item"><a href="https://twitter.com/Ac_313" target="_blank"><i
@@ -170,7 +177,6 @@
                                 </u1>
                             </div><!--//desc-->
                         </div><!--//item-->
-
                     </div><!--//content-->
 
                 </div><!--//section-inner-->
@@ -193,7 +199,8 @@
                                 </u1>
                             </div>
                             <a class="col-md-4 col-12">
-                                <img class="img-fluid" src="assets/images/others/research1.png" alt="research1" style="margin: 10px 0px 10px 0px"/>
+                                <img class="img-fluid" src="assets/images/others/research1.png" alt="research1"
+                                     style="margin: 10px 0px 10px 0px"/>
                             </a>
                             <div class="desc col-md-8 col-12">
                                 <u1 class="inner toggle-child">
@@ -201,8 +208,10 @@
                                     東北大学工学部在籍中，動画像中の人物の持つ所持品検出手法の研究を行った．
                                     従来のカラー画像からの所持品検出に加え，近年手軽に入手が可能になりつつある深度カメラの出力画像から所持品検出を行う手法を提案した．
                                     また，従来手法の結果と統合することにより制度改善が行えることを示した．<br>
-                                    このテーマに基づき卒業論文を執筆したほか，<a href="https://www.ipsj.or.jp/event/taikai/82/" target="_blank">情報処理学会第82回全国大会</a>
-                                    にて発表を行い<a href="https://www.ipsj.or.jp/award/taikaigakusei.html#anc1" target="_blank">学生奨励賞</a>を受賞した．<br>
+                                    このテーマに基づき卒業論文を執筆したほか，<a href="https://www.ipsj.or.jp/event/taikai/82/"
+                                                            target="_blank">情報処理学会第82回全国大会</a>
+                                    にて発表を行い<a href="https://www.ipsj.or.jp/award/taikaigakusei.html#anc1"
+                                              target="_blank">学生奨励賞</a>を受賞した．<br>
                                     現在もさらなる精度改善のため手法の改良を続けており，機械学習の導入などを検討している．
                                 </u1>
                             </div>
@@ -220,7 +229,8 @@
                                 </u1>
                             </div>
                             <a class="col-md-4 col-12">
-                                <video autoplay loop muted playsinline alt="opencampus1" style="margin: 10px 0px 10px 0px">
+                                <video autoplay loop muted playsinline alt="opencampus1"
+                                       style="margin: 10px 0px 10px 0px">
                                     <source type="video/mp4" src="assets/images/others/yukagahikaruyatu.mp4">
                                     <img src="assets/images/others/yukagahikaruyatu.png">
                                 </video>
@@ -237,7 +247,8 @@
                                 </u1>
                             </div><!--//desc-->
                             <a class="col-md-4 col-12">
-                                <video autoplay loop muted playsinline alt="opencampus2" style="margin: 10px 0px 10px 0px">
+                                <video autoplay loop muted playsinline alt="opencampus2"
+                                       style="margin: 10px 0px 10px 0px">
                                     <source type="video/mp4" src="assets/images/others/kaogaaruyatu.mp4">
                                     <img src="assets/images/others/kaogaaruyatu.png">
                                 </video>
@@ -253,6 +264,7 @@
                                 </u1>
                             </div>
                         </div><!--//item-->
+                        <h4 class="title" style="text-align: right">And more...</h4>
                     </div>
                 </div>
             </section>
@@ -479,6 +491,25 @@
 
     </div><!--//secondary-->
 </div><!--//row-->
+<section class="chart section">
+    <div class="section-inner">
+        <a class="toggle"><h2 class="heading">This Page</h2></a>
+        <u1 class="inner toggle-child">
+            <div class="content">
+                <p>
+                    このページは，AWSの各種サービスを用いて構築されている．<br>
+                    <a href="https://github.com/Asalato/Portfolio" target="_blank">GitHub</a>によってバージョン管理を行い，
+                    更新があった際にAWS CodePipelineを用いてS3のデータベースを更新する．<br>
+                    またSSL証明書をCertificate Managerにて取得することでhttps接続に対応している．<br>
+                    今後は，現在Qiitaにて公開している記事を英訳し，自分のブログとして公開することで自身の知見をより広めていくことを考えている．
+                </p>
+                <div class="featured-image">
+                    <img class="img-fluid" src="assets/images/chart.png" alt="Chart"/>
+                </div>
+            </div>
+        </u1><!--//content-->
+    </div><!--//section-inner-->
+</section><!--//section-->
 </div><!--//masonry-->
 
 <!-- ******FOOTER****** -->
