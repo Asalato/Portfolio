@@ -50,6 +50,8 @@ body #wrapper{
 
 .chart img {
   width: 75%;
+  background-color: #f0f0f0;
+  padding: 10px;
   text-align: center;
   margin-bottom: 30px;
 }
